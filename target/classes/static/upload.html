@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    
+   <!--  <script type="text/javascript">
+      function upload(){
+        var files = document.getElementById('file1').files;
+        var formData= new FormData();
+        var request = new XMLHttpRequest();
+        request.open("POST", "http://localhost:8080/rest/file/upload");
+        formData.append("1",files[0]);
+        request.send(formData);
+        for ( pair in formData.entries())
+        	{
+        	 console.log()
+        	}
+        console.log(formData);
+      }
+
+	
+    </script> formData.append("1",files[0]); -->
+    <script  type="text/javascript">
+
+    function getData()
+    	{
+    	var request = new XMLHttpRequest();
+   	 request.open("GET","http://localhost:8080/rest/file/getFiles");
+   	 request.responseType = 'json';
+   	 request.onload = function() {
+   		  var File_list = request.response;
+   		  
+   		var body = document.getElementsByTagName("body")[0]; 
+    	var tbl = document.createElement('table');
+    	var tblhead = document.createElement('thead');
+        var tbl_head_row = document.createElement('tr');
+        var obj_head = Object.keys(File_list[0]);
+        for(var k in obj_head){
+          var tbl_head_row_col = document.createElement('th');
+          var tbl_head_row_col_data = document.createTextNode(obj_head[k]);
+          tbl_head_row_col.appendChild(tbl_head_row_col_data);
+          tbl_head_row.appendChild(tbl_head_row_col);
+        }
+        tblhead.appendChild(tbl_head_row);
+        tbl.appendChild(tblhead);
+    	var tblbody = document.createElement('tbody');
+    	
+    	for(var i in File_list) { 
+    	console.log(File_list[i]);
+    	var trow = document.createElement('tr');
+    	for(var j in File_list[i]){ 
+    	var obj = File_list[i];	
+    	var tcol = document.createElement('td'); 
+    	var tcoldata = document.createTextNode(obj[j]);
+    	tcol.appendChild(tcoldata); 
+    	trow.appendChild(tcol);
+    	
+    		} 
+    	tblbody.appendChild(trow); 
+    	
+    	} 
+    	tbl.appendChild(tblbody);
+    	body.appendChild(tbl);
+   		};
+   		request.send();
+  	
+    	
+    	}
+    	 
+    
+    </script>
+  </head>
+
+
+  <body>
+    
+   <form action="http://localhost:8080/rest/file/upload" method="post" enctype="multipart/form-data">
+	<input name="file" id="filename" type="file" multiple>
+    <button name="submit" type="submit">Upload</button>
+    
+</form>
+ <button onclick="getData()">View Files</button>
+</body>
+</html>   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
