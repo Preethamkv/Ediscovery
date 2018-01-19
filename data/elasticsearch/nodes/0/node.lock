@@ -1,0 +1,11 @@
+CREATE SCHEMA `e_discovery` ;
+
+
+CREATE TABLE IF NOT EXISTS`e_discovery`.`description`(
+  `id` INT NOT NULL,
+  `detail` VARCHAR(45) NULL,
+  `caseid` INT NULL,
+  PRIMARY KEY (`id`));
+  
+  INSERT INTO `ediscovery`.`description` (`id`, `detail`, `caseid`) VALUES ('1', 'Case Description', '1');
+  
