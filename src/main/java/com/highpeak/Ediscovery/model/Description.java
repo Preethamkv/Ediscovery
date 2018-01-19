@@ -1,7 +1,5 @@
 package com.highpeak.Ediscovery.model;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,8 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "description")
+@Table(name ="description")
 public class Description {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
