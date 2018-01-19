@@ -87,9 +87,7 @@ public class FileUploadController extends AbstractController {
 		}
 	}
 
-	@RequestMapping(value = "/description", method = RequestMethod.GET/*
-																		 * , produces = MediaType.APPLICATION_JSON_VALUE
-																		 */)
+	@RequestMapping(value = "/description", method = RequestMethod.GET)
 	@ResponseBody
 	public DescpModel getdetail() {
 
