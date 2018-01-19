@@ -1,10 +1,11 @@
 package com.highpeak.Ediscovery.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.websocket.server.PathParam;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -13,9 +14,12 @@ import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -138,18 +142,49 @@ public class ElasticsearchController {
 		Response response = restClient.performRequest("GET", "/document/_search",paramMap,entity1);
 		//HttpEntity data=response.getEntity();
 		String json=EntityUtils.toString(response.getEntity());
-		/* JSONObject result = new JSONObject(json);
-		 System.out.println(result);
-		 JSONArray tokenList = result.getJSONArray("filename");
-         JSONObject oj = tokenList.getJSONObject(0);
-         String token = oj.getString("filename"); */
-		//System.out.println(json);
 		/*String host=("Host -" + response.getHost() );
 		System.out.println(host);
 		String request=("RequestLine -"+ response.getRequestLine() );
 		System.out.println(request);*/
 	return json;
 	}
+	
+	 @RequestMapping(value = "/pdf/{docname}",method = RequestMethod.GET,produces = "application/pdf")
+	    public ResponseEntity<byte[]>  showPdf(@PathVariable("docname") String docname) throws IOException{
+
+	        /*URL url=new URL("https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf");
+	        URLConnection urlConn = url.openConnection();
+	        InputStream in = (url.openStream());
+	        ByteArrayOutputStream pdf= new ByteArrayOutputStream();
+
+	        byte[] buffer=new byte[(1024)];
+	        int byteread;
+	        while ((byteread=in.read(buffer))!=-1){
+	            pdf.write(buffer,0,byteread);
+	        }
+	        byte[] pdfContents=pdf.toByteArray();*/
+
+
+	       Path path = Paths.get("/home/akshay/Documents/Project/EDiscovery/Docs/"+docname+".pdf");
+	        byte[] pdfContents = null;
+	        try {
+	            pdfContents = Files.readAllBytes(path);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+	        //String filename ="test.pdf";
+	        headers.add("Content-Disposition", "inline;filename=test.pdf");
+	        //headers.setContentDispositionFormData(filename, filename);
+	        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+	        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(
+	                pdfContents, headers, HttpStatus.OK);
+	        return response;
+
+	    }
+
 	
 	
 }
