@@ -15,6 +15,7 @@ import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,12 +27,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.highpeak.Ediscovery.service.GetProperty;
+
 
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/elasticsearch")
 public class ElasticsearchController {
+	@Autowired
+	GetProperty getproperty;
 	
 
 	@RequestMapping("/entity")
@@ -163,11 +168,15 @@ public class ElasticsearchController {
 	            pdf.write(buffer,0,byteread);
 	        }
 	        byte[] pdfContents=pdf.toByteArray();*/
-	    	File file =new File(docname+".pdf");
-	    	String doc_path=(file.getCanonicalPath());
+	    	/*File file =new File("../"+docname+".pdf");
+	    	//System.out.println(file.getParent());
+	    	System.out.println(file.getAbsolutePath());
+	    	System.out.println(file.getPath());
+	    	System.out.println(file.getCanonicalPath());
+	    	String doc_path=(file.getCanonicalPath());*/
 
            
-	       Path path = Paths.get(doc_path);
+	       Path path = Paths.get(getproperty.getPropValues()+docname+".pdf");
 	        byte[] pdfContents = null;
 	        try {
 	            pdfContents = Files.readAllBytes(path);
@@ -187,7 +196,5 @@ public class ElasticsearchController {
 	        
 	    }
 
-	
-	
 }
 
