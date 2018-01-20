@@ -1,5 +1,6 @@
 package com.highpeak.Ediscovery.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -162,8 +163,10 @@ public class ElasticsearchController {
 	            pdf.write(buffer,0,byteread);
 	        }
 	        byte[] pdfContents=pdf.toByteArray();*/
+	    	File file =new File(docname+".pdf");
+	    	String doc_path=(file.getCanonicalPath());
 
-           String doc_path="/home/akshay/Documents/Project/EDiscovery/Docs/"+docname+".pdf";
+           
 	       Path path = Paths.get(doc_path);
 	        byte[] pdfContents = null;
 	        try {
@@ -181,7 +184,7 @@ public class ElasticsearchController {
 	        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(
 	                pdfContents, headers, HttpStatus.OK);
 	        return response;
-
+	        
 	    }
 
 	
