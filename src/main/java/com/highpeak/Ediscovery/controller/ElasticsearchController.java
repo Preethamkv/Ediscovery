@@ -52,7 +52,6 @@ public class ElasticsearchController {
 		paramMap.put("pretty", "true");
 		                               
 		Response response = restClient.performRequest("GET", "/document/_search",paramMap,entity1);
-		HttpEntity data=response.getEntity();
 	    //System.out.println(data);
 		
 		String json=EntityUtils.toString(response.getEntity());
@@ -164,8 +163,8 @@ public class ElasticsearchController {
 	        }
 	        byte[] pdfContents=pdf.toByteArray();*/
 
-
-	       Path path = Paths.get("/home/akshay/Documents/Project/EDiscovery/Docs/"+docname+".pdf");
+           String doc_path="/home/akshay/Documents/Project/EDiscovery/Docs/"+docname+".pdf";
+	       Path path = Paths.get(doc_path);
 	        byte[] pdfContents = null;
 	        try {
 	            pdfContents = Files.readAllBytes(path);
